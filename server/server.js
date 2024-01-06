@@ -38,7 +38,8 @@ app.post("/", async (req, res) => {
 
     res.status(200).send({ bot: response.data.choices[0].text });
   } catch (error) {
-    console.log(error);
+    console.log(error); // logging the issue
+    // still ok response from the bot
     res.status(200).send({ bot: errResponse[0].bot });
   }
 });
