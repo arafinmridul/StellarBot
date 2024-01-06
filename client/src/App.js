@@ -48,6 +48,14 @@ const App = () => {
     focusTextarea();
   });
 
+  // Enter key functionality
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && formValue.trim() !== "") {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   // Make a GET request to the server
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -137,6 +145,7 @@ const App = () => {
           value={formValue}
           ref={textareaRef}
           onChange={(e) => setFormValue(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <button type="submit">
           <img src={send} alt="send" />
