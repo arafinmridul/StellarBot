@@ -52,13 +52,20 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Adding user's message to the messages state
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { sender: "user", text: formValue, processing: false },
+    ]);
+
     // Clear the form
     setFormValue("");
 
-    // Add a new message to the messages state with processing set to true
+    // Adding the bot's message to the messages state
+    // When setState is called, React schedules an update to the component’s state immediately
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "user", text: formValue, processing: true },
+      { sender: "bot", text: str, processing: true },
     ]);
 
     // Make a POST request to the server
@@ -77,7 +84,7 @@ const App = () => {
       const data = await response.json();
       const parsedData = data.bot.trim();
 
-      // Update the last message in the messages state
+      // Updating bot's message in the messages state
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages];
         const lastIndex = newMessages.length - 1;
