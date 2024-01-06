@@ -1,7 +1,9 @@
 import express from "express";
-import * as dotenv from "dotenv"; // * as dotenv is used to import all the types
+import * as dotenv from "dotenv";
 import cors from "cors";
 import OpenAI from "openai";
+
+import errResponse from "./errResponse.js";
 
 dotenv.config(); // loads .env file
 
@@ -20,6 +22,7 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
+  // res.status(500).send({ bot: errResponse[0].bot });
   try {
     const prompt = req.body.prompt;
 
@@ -33,13 +36,17 @@ app.post("/", async (req, res) => {
       presence_penalty: 0,
     });
 
-    res.status(200).send({
-      bot: response.data.choices[0].text,
-    });
+    res.status(200).send({ bot: response.data.choices[0].text });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    res.status(200).send({ bot: errResponse[0].bot });
   }
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.log(err.stack);
+  res.status(500).send({ bot: errResponse[0].bot });
 });
 
 const PORT = process.env.PORT || 5000;
