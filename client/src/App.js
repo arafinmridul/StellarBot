@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import bot from "./assets/bot.svg";
 import user from "./assets/user.svg";
@@ -38,6 +38,15 @@ const App = () => {
 
     return () => clearInterval(interval);
   }, [loaderText]);
+
+  // Text area gets focus
+  const textareaRef = useRef(null);
+  function focusTextarea() {
+    textareaRef.current.focus();
+  }
+  useEffect(() => {
+    focusTextarea();
+  });
 
   // Make a GET request to the server
   const handleSubmit = async (e) => {
@@ -113,6 +122,7 @@ const App = () => {
           cols="1"
           placeholder="Message StellarBot..."
           value={formValue}
+          ref={textareaRef}
           onChange={(e) => setFormValue(e.target.value)}
         />
         <button type="submit">
