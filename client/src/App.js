@@ -99,9 +99,15 @@ const App = () => {
     }
   };
 
+  // Scroll to the bottom of the chat box
+  const chatBoxRef = useRef(null);
+  useEffect(() => {
+    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+  });
+
   return (
     <div id="app">
-      <div id="chat_container">
+      <div id="chat_container" ref={chatBoxRef}>
         {messages.map((message, i) => (
           <div
             className={`wrapper ${message.sender === "bot" && "ai"}`}
