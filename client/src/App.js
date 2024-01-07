@@ -25,19 +25,23 @@ const App = () => {
 
   // Loader functionality
   const str = "StellarBot is typing.";
-  const [loaderText, setLoaderText] = useState("");
+  const [loaderText, setLoaderText] = useState(str);
 
   useEffect(() => {
-    let interval = setInterval(() => {
-      setLoaderText((prevText) => prevText + ".");
-
-      if (loaderText.length >= 3) {
-        setLoaderText(str);
-      }
+    const intervalId = setInterval(() => {
+      setLoaderText((prevText) => {
+        // If the loaderText has 4 dots, reset it to the original value
+        if (prevText.endsWith("....")) {
+          return str;
+        }
+        // Otherwise, add a dot to the end
+        return prevText + ".";
+      });
     }, 300);
 
-    return () => clearInterval(interval);
-  }, [loaderText]);
+    // Clear the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }, []);
 
   // Text area gets focus
   const textareaRef = useRef(null);
@@ -56,14 +60,14 @@ const App = () => {
     }
   };
 
-  // Make a GET request to the server
+  // After submitting the form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Adding user's message to the messages state
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "user", text: formValue },
+      { sender: "user", text: formValue, processing: false },
     ]);
 
     // Clear the form
@@ -73,7 +77,7 @@ const App = () => {
     // When setState is called, React schedules an update to the component’s state immediately
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "bot", text: str },
+      { sender: "bot", text: "", processing: true },
     ]);
 
     // Make a POST request to the server
@@ -96,6 +100,7 @@ const App = () => {
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages];
         const lastIndex = newMessages.length - 1;
+        newMessages[lastIndex].processing = false;
         newMessages[lastIndex].text = parsedData;
         return newMessages;
       });
@@ -110,7 +115,7 @@ const App = () => {
   const chatBoxRef = useRef(null);
   useEffect(() => {
     chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-  });
+  }, [messages]);
 
   return (
     <div id="app">
@@ -127,7 +132,9 @@ const App = () => {
                   alt={message.sender}
                 />
               </div>
-              <div className="message">{message.text}</div>
+              <div className="message">
+                {message.processing ? loaderText : message.text}
+              </div>
             </div>
           </div>
         ))}
