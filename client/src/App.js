@@ -25,7 +25,7 @@ const App = () => {
 
   // Loader functionality
   const str = "StellarBot is typing.";
-  const [loaderText, setLoaderText] = useState(str);
+  const [loaderText, setLoaderText] = useState("");
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -63,7 +63,7 @@ const App = () => {
     // Adding user's message to the messages state
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "user", text: formValue, processing: false },
+      { sender: "user", text: formValue },
     ]);
 
     // Clear the form
@@ -73,7 +73,7 @@ const App = () => {
     // When setState is called, React schedules an update to the component’s state immediately
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "bot", text: str, processing: true },
+      { sender: "bot", text: str },
     ]);
 
     // Make a POST request to the server
@@ -96,7 +96,6 @@ const App = () => {
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages];
         const lastIndex = newMessages.length - 1;
-        newMessages[lastIndex].processing = false;
         newMessages[lastIndex].text = parsedData;
         return newMessages;
       });
@@ -128,9 +127,7 @@ const App = () => {
                   alt={message.sender}
                 />
               </div>
-              <div className="message">
-                {message.processing ? loaderText : message.text}
-              </div>
+              <div className="message">{message.text}</div>
             </div>
           </div>
         ))}
