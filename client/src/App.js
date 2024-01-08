@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactTyped from "react-typed";
 import "./App.css";
 import bot from "./assets/bot.svg";
 import user from "./assets/user.svg";
@@ -118,7 +119,19 @@ const App = () => {
                 />
               </div>
               <div className="message">
-                {message.processing ? loaderText : message.text}
+                {message.processing ? (
+                  loaderText
+                ) : message.sender === "user" ? (
+                  message.text
+                ) : (
+                  <ReactTyped
+                    strings={[message.text]}
+                    typeSpeed={30}
+                    backSpeed={50}
+                    showCursor={false}
+                    loop={false}
+                  />
+                )}
               </div>
             </div>
           </div>
