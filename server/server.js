@@ -27,7 +27,7 @@ app.post("/", async (req, res) => {
     const prompt = req.body.prompt;
 
     const response = await openai.chat.completions.create({
-      model: "text-davinci-003",
+      model: "gpt-3.5-turbo",
       prompt: `${prompt}`,
       temperature: 0,
       max_tokens: 500,
@@ -40,9 +40,7 @@ app.post("/", async (req, res) => {
   } catch (error) {
     console.log(error); // logging the issue
     // still simulating an ok response from the bot
-    setTimeout(() => {
-      res.status(200).send({ bot: errResponse[0].bot });
-    }, 1000);
+    res.status(200).send({ bot: errResponse[0].bot });
   }
 });
 

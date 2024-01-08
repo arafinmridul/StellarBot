@@ -126,7 +126,7 @@ const App = () => {
                 ) : (
                   <ReactTyped
                     strings={[message.text]}
-                    typeSpeed={30}
+                    typeSpeed={15}
                     backSpeed={50}
                     showCursor={false}
                     loop={false}
