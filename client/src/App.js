@@ -10,7 +10,7 @@ const App = () => {
   const [messages, setMessages] = useState([]);
 
   // Loader functionality
-  const str = "StellarBot is typing.";
+  const str = "StellarBot is thinking.";
   const [loaderText, setLoaderText] = useState(str);
 
   useEffect(() => {
@@ -116,6 +116,24 @@ const App = () => {
   return (
     <div id="app">
       <div id="chat_container" ref={chatBoxRef}>
+        <div id="temp" className="wrapper ai">
+          <div className="chat">
+            <div className="profile">
+              <img src={bot} alt="bot" />
+            </div>
+            <div className="message">
+              <ReactTyped
+                strings={[
+                  "Start typing or tap your screen to begin a conversation with StellarBot!",
+                ]}
+                typeSpeed={15}
+                backSpeed={50}
+                showCursor={false}
+                loop={false}
+              />
+            </div>
+          </div>
+        </div>
         {messages.map((message, i) => (
           <div
             className={`wrapper ${message.sender === "bot" && "ai"}`}
