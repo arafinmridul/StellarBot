@@ -46,6 +46,16 @@ const App = () => {
     }
   };
 
+  const apiUrl = "https://stellarbot-api.onrender.com/";
+
+  // Refresher
+  useEffect(() => {
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => console.log("Data from server:", data.message))
+      .catch((error) => console.error("Fetch error:", error));
+  }, []);
+
   // After submitting the form
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,7 +77,7 @@ const App = () => {
     ]);
 
     // Make a POST request to the server
-    const response = await fetch("https://stellarbot-api.onrender.com/", {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
