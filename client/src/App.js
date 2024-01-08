@@ -8,21 +8,6 @@ const App = () => {
   const [formValue, setFormValue] = useState("");
   const [messages, setMessages] = useState([]);
 
-  // Typing text effect
-  const [messageText, setMessageText] = useState("");
-
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index < messageText.length) {
-        setMessageText((prevText) => prevText + messageText[index]);
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 20);
-  }, [messageText]);
-
   // Loader functionality
   const str = "StellarBot is typing.";
   const [loaderText, setLoaderText] = useState(str);
