@@ -16,7 +16,7 @@ const App = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setLoaderText((prevText) => {
-        // If the loaderText has 4 dots, reset it to the original value
+        // Reset it to the original value
         if (prevText.endsWith("....")) {
           return str;
         }
@@ -66,11 +66,9 @@ const App = () => {
       { sender: "user", text: formValue, processing: false },
     ]);
 
-    // Clear the form
     setFormValue("");
 
     // Adding the bot's message to the messages state
-    // When setState is called, React schedules an update to the component’s state immediately
     setMessages((prevMessages) => [
       ...prevMessages,
       { sender: "bot", text: "", processing: true },
@@ -101,7 +99,6 @@ const App = () => {
         return newMessages;
       });
     } else {
-      // Handle the server's error
       const err = await response.text();
       alert(err);
     }
